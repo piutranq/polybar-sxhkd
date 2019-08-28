@@ -72,7 +72,7 @@ handle_event () {
     [[ $(echo "$event" | grep "^H") ]] && event_hotkey "$event"
     [[ $(echo "$event" | grep "^BBegin") ]] && event_begin
     [[ $(echo "$event" | grep "^EEnd") ]] && event_end
-    [[ $(echo "$event" | grep "^C") ]] && [[ $REGISTER_CHAINMODE -eq 0 ]] && event_end
+    [[ $(echo "$event" | grep "^C") ]] && [[ ! $REGISTER_CHAINMODE ]] && event_end
 }
 
 # Waiting input event from pipe
