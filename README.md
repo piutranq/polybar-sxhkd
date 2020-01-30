@@ -7,6 +7,7 @@
 ## Require
 
 - `bash` (tested on GNU bash version 5.0.7)
+    - need to support the associative array feature (at least `bash` version 4)
 - need nodejs version? see [here](https://github.com/piutranq/polybar-sxhkd/tree/409aedda0fbadbd0bf26c234086e24f967d4cf17)
 
 ## Usage
@@ -44,7 +45,7 @@ exec = /path/of/the/script.sh
 
 #### LABEL_TABLE
 
-- Assigned label list for each hotkey, as the `key:value` format
+- Assigned label list for each hotkey, as the `["key"]="value"` format
 
 ##### key
 - `H` + the prefix of hotkey chain to display, including all whitespace.
