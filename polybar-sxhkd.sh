@@ -51,7 +51,7 @@ event_hotkey () {
     for elem in "${LABEL_TABLE[@]}"; do
         key="${elem%%:*}"
         val="${elem##*:}"
-        [[ $(echo "$event" | grep "$key$") ]] && display_label $val
+        [[ $(echo "$event" | grep "$key$") ]] && display_label "$val"
     done
 }
 
