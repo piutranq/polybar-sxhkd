@@ -2,7 +2,7 @@
 # ============================================================================
 #   Configuration Section
 # ============================================================================
-declare -r PIPE="/run/user/$UID/sxhkd.fifo"
+declare -r ADDRESS="/run/user/$UID/sxhkd.fifo.sxhkd-statusd"
 
 declare -r LABEL_PREFIX=" "
 declare -r LABEL_SUFFIX=" "
@@ -68,7 +68,7 @@ handle_event () {
 
 # Waiting input event from pipe
 loop () {
-    cat $PIPE | \
+    (socat UNIX-CONNECT:$ADDRESS -) | \
     while read event; do
         handle_event "$event"
     done

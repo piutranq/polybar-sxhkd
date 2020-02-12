@@ -2,20 +2,35 @@
 
 ![super + r is displayed on polybar, next bspwm module.](./img/demo.png)
 
-- Read `sxhkd` status fifo and display the label of hotkey chain
+- Read `sxhkd` status and display the label of hotkey chain
 
 ## Require
 
+- `sxhkd-statusd`
+    - Get from [here](https://github.com/piutranq/sxhkd-statusd)
+- `socat` (tested on version 1.7.3.4)
 - `bash` (tested on GNU bash version 5.0.7)
-    - need to support the associative array feature (at least `bash` version 4)
-- need nodejs version? see [here](https://github.com/piutranq/polybar-sxhkd/tree/409aedda0fbadbd0bf26c234086e24f967d4cf17)
+    - Need to support the associative array feature (at least `bash` version 4)
 
 ## Usage
 
 - Download [the script](https://raw.githubusercontent.com/piutranq/polybar-sxhkd/master/polybar-sxhkd.sh) and put it in path you want.
-- Edit the configuration section in the script for your customization.
-- Make the fifo to write sxhkd status (eg. `$ mkfifo $HOME/.cache/sxhkd.fifo`)
-- Run sxhkd with the status fifo. (eg. `$ sxhkd -s $HOME/.cache/sxhkd.fifo &`)
+
+- Make the named pipe to write sxhkd status
+    - `$ mkfifo /run/user/$UID/sxhkd.fifo`
+
+- Run `sxhkd` with the status pipe.
+    - `$ sxhkd -s /run/user/$UID/sxhkd.fifo &`
+
+- Run `sxhkd-statusd` with the sxhkd status pipe
+    - `$ sxhkd-statusd /run/user/$UID/sxhkd.fifo &`
+
+- Open the script, and modify `ADDRESS` in the configuration section to the socket path.
+    - The socket path is the same as sxhkd status pipe, with suffix `.sxhkd-statusd`.
+    - `declare -r ADDRESS="/run/user/$UID/sxhkd.fifo.sxhkd-statusd"`
+
+- Edit the other configuration in the script for your customization.
+
 - Add this module in your polybar config, and reload polybar.
 
 ```ini
@@ -30,10 +45,11 @@ exec = /path/of/the/script.sh
 
 - Configuration is stored directly in the script
 
-### PIPE
+### ADDRESS
 
-- The full path of sxhkd status pipe.
-- eg. `declare -r PIPE="/run/user/$UID/sxhkd.fifo"`
+- The full path of sxhkd-statusd socket. 
+    - The path is the same as sxhkd status pipe, with suffix `.sxhkd-statusd`.
+    - `declare -r ADDRESS="/run/user/$UID/sxhkd.fifo.sxhkd-statusd"`
 
 ### LABEL
 
